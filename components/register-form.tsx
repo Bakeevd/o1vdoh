@@ -25,23 +25,35 @@ export function RegisterForm({ onSuccess, onLoginClick }: RegisterFormProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError("")
+    console.log("Начало отправки формы регистрации");
 
     if (!name || !email || !password || !confirmPassword) {
+      console.log("Не все поля заполнены");
       setError("Пожалуйста, заполните все поля")
       return
     }
 
     if (password !== confirmPassword) {
+      console.log("Пароли не совпадают");
       setError("Пароли не совпадают")
       return
     }
 
-    const success = await register(name, email, password)
+    console.log("Вызов функции register с данными:", name, email);
+    try {
+      const success = await register(name, email, password)
+      console.log("Результат регистрации:", success);
 
-    if (success) {
-      onSuccess?.()
-    } else {
-      setError("Ошибка при регистрации. Попробуйте другой email.")
+      if (success) {
+        console.log("Успешная регистрация, вызов onSuccess");
+        onSuccess?.()
+      } else {
+        console.log("Неудачная регистрация, установка ошибки");
+        setError("Ошибка при регистрации. Попробуйте другой email.")
+      }
+    } catch (error) {
+      console.error("Ошибка при вызове register:", error);
+      setError("Критическая ошибка при регистрации. Пожалуйста, попробуйте позже.")
     }
   }
 

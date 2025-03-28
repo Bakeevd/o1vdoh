@@ -17,11 +17,20 @@ type AuthContextType = {
   logout: () => void
 }
 
+// Получаем базовый URL сайта
+const getBaseUrl = () => {
+  if (typeof window !== 'undefined') {
+    return window.location.origin;
+  }
+  return 'https://app.vdohnovenie.pro'; // Fallback для SSR
+};
+
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const baseUrl = getBaseUrl();
 
   // Check for saved user on mount
   useEffect(() => {
@@ -35,9 +44,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // Реальная функция входа, которая обращается к API
   const login = async (email: string, password: string): Promise<boolean> => {
     setIsLoading(true)
+    console.log('Начало логина:', email);
+    console.log('Базовый URL:', baseUrl);
 
     try {
-      const response = await fetch('/api/login', {
+      const apiUrl = `${baseUrl}/api/login`;
+      console.log('Отправка запроса к:', apiUrl);
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -48,7 +61,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }),
       });
 
+      console.log('Получен ответ:', response.status);
       const data = await response.json();
+      console.log('Данные ответа:', data);
 
       if (!response.ok) {
         console.error('Ошибка при входе:', data.message);
@@ -63,6 +78,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         email: data.user.email,
       };
       
+      console.log('Пользователь успешно вошел:', newUser);
       setUser(newUser);
       localStorage.setItem("user", JSON.stringify(newUser));
       setIsLoading(false);
@@ -77,9 +93,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // Реальная функция регистрации, которая обращается к API
   const register = async (name: string, email: string, password: string): Promise<boolean> => {
     setIsLoading(true)
+    console.log('Начало регистрации:', name, email);
+    console.log('Базовый URL:', baseUrl);
 
     try {
-      const response = await fetch('/api/register', {
+      const apiUrl = `${baseUrl}/api/register`;
+      console.log('Отправка запроса к:', apiUrl);
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -91,7 +111,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }),
       });
 
+      console.log('Получен ответ:', response.status);
       const data = await response.json();
+      console.log('Данные ответа:', data);
 
       if (!response.ok) {
         console.error('Ошибка при регистрации:', data.message);
@@ -106,6 +128,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         email: data.user.email,
       };
       
+      console.log('Пользователь успешно зарегистрирован:', newUser);
       setUser(newUser);
       localStorage.setItem("user", JSON.stringify(newUser));
       setIsLoading(false);
