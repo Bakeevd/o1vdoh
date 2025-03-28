@@ -161,10 +161,12 @@ export default function Home() {
           <div className="relative z-10 md:max-w-lg md:mx-auto lg:max-w-xl">
             <h2 className="text-2xl font-semibold mb-3 text-slate-700">Первая консультация</h2>
             <p className="text-slate-500 text-sm mb-5">Начните свой путь с бесплатной 30-минутной консультацией</p>
-            <Button className="w-full gradient-button font-medium py-6" radius="xl">
-              <Calendar className="mr-2 h-5 w-5" />
-              Записаться
-            </Button>
+            <Link href="/profile">
+              <Button className="w-full gradient-button font-medium py-6" radius="xl">
+                <Calendar className="mr-2 h-5 w-5" />
+                Записаться
+              </Button>
+            </Link>
           </div>
           <div className="absolute -right-8 -bottom-8 w-40 h-40 opacity-20 animate-float">
             <Sparkles className="w-full h-full text-primary" />
