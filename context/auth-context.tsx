@@ -3,7 +3,7 @@
 import { createContext, useContext, useState, useEffect, type ReactNode } from "react"
 
 type User = {
-  id: number
+  id: string
   name: string
   email: string
   avatar?: string | null
@@ -32,52 +32,89 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setIsLoading(false)
   }, [])
 
-  // Mock login function
+  // Реальная функция входа, которая обращается к API
   const login = async (email: string, password: string): Promise<boolean> => {
     setIsLoading(true)
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+    try {
+      const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
 
-    // Mock validation
-    if (email && password) {
-      const newUser = {
-        id: 1,
-        name: email.split("@")[0],
-        email,
+      const data = await response.json();
+
+      if (!response.ok) {
+        console.error('Ошибка при входе:', data.message);
+        setIsLoading(false);
+        return false;
       }
-      setUser(newUser)
-      localStorage.setItem("user", JSON.stringify(newUser))
-      setIsLoading(false)
-      return true
-    }
 
-    setIsLoading(false)
-    return false
+      // Сохраняем пользователя в состоянии и localStorage
+      const newUser = {
+        id: data.user.id,
+        name: data.user.name,
+        email: data.user.email,
+      };
+      
+      setUser(newUser);
+      localStorage.setItem("user", JSON.stringify(newUser));
+      setIsLoading(false);
+      return true;
+    } catch (error) {
+      console.error('Ошибка при входе:', error);
+      setIsLoading(false);
+      return false;
+    }
   }
 
-  // Mock register function
+  // Реальная функция регистрации, которая обращается к API
   const register = async (name: string, email: string, password: string): Promise<boolean> => {
     setIsLoading(true)
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+    try {
+      const response = await fetch('/api/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          password,
+        }),
+      });
 
-    // Mock validation
-    if (name && email && password) {
-      const newUser = {
-        id: 1,
-        name,
-        email,
+      const data = await response.json();
+
+      if (!response.ok) {
+        console.error('Ошибка при регистрации:', data.message);
+        setIsLoading(false);
+        return false;
       }
-      setUser(newUser)
-      localStorage.setItem("user", JSON.stringify(newUser))
-      setIsLoading(false)
-      return true
-    }
 
-    setIsLoading(false)
-    return false
+      // Сохраняем пользователя в состоянии и localStorage
+      const newUser = {
+        id: data.user.id,
+        name: data.user.name,
+        email: data.user.email,
+      };
+      
+      setUser(newUser);
+      localStorage.setItem("user", JSON.stringify(newUser));
+      setIsLoading(false);
+      return true;
+    } catch (error) {
+      console.error('Ошибка при регистрации:', error);
+      setIsLoading(false);
+      return false;
+    }
   }
 
   // Logout function
