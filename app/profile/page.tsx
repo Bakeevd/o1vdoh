@@ -13,7 +13,7 @@ export default function ProfilePage() {
   const { user, logout } = useAuth()
   const { appointments } = useBooking()
   const [authMode, setAuthMode] = useState<"login" | "register">("login")
-
+  
   // Filter appointments for the current user
   const userAppointments = user ? appointments.filter((app) => app.userId === user.id && app.status === "upcoming") : []
 
@@ -35,6 +35,12 @@ export default function ProfilePage() {
           ) : (
             <RegisterForm onLoginClick={() => setAuthMode("login")} />
           )}
+          
+          <div className="mt-4 text-center">
+            <a href="/test-api" className="text-xs text-blue-500 hover:underline">
+              Тестирование API
+            </a>
+          </div>
         </GlassPanel>
       </div>
     )
@@ -100,7 +106,7 @@ export default function ProfilePage() {
         ) : (
           <div className="text-center p-6 bg-white/40 rounded-lg border border-warm-200">
             <p className="text-warm-600 mb-3">У вас пока нет активных записей</p>
-            <Button variant="accent" as="a" href="/booking">
+            <Button variant="accent" className="inline-block" onClick={() => window.location.href = '/booking'}>
               Записаться на приём
             </Button>
           </div>
