@@ -4,10 +4,12 @@ import Link from "next/link"
 import Image from "next/image"
 import { ArrowRight, Calendar, Sparkles, Star, Clock, Users, User, Copy, ChevronRight, Wallet, Share2, Gift, Info } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { LogoBadge } from "@/components/logo-badge"
 
 export default function Home() {
   const [showTooltip, setShowTooltip] = useState(false);
+  const messageText = "Здесь вы найдёте безусловную поддержку и понимание. Мы поможем найти инструменты для решения любых ваших ситуаций. Готовы пройти этот путь вместе с вами.😇";
   
   // Состояние для запуска волновой анимации
   const [isAnimating, setIsAnimating] = useState(false);
@@ -65,85 +67,49 @@ export default function Home() {
 
   return (
     <div className="p-4 pt-6 max-w-4xl mx-auto">
-      <header className="mb-2">
+      <LogoBadge />
+      <header className="mb-4">
         <p className="text-center text-slate-500 text-sm md:text-base">Центр духовного развития и практик</p>
       </header>
 
-      {/* Главное изображение */}
-      <div className="mb-8 overflow-hidden shadow-lg relative rounded-3xl">
-        <div className="absolute top-20 right-0 w-64 h-64 bg-gradient-to-br from-blue-400/10 to-purple-400/10 rounded-full blur-3xl -z-10"></div>
-        <div className="absolute bottom-10 left-0 w-52 h-52 bg-gradient-to-br from-pink-400/10 to-purple-400/10 rounded-full blur-3xl -z-10"></div>
-        <div className="relative">
+      {/* Главное изображение с наложенным названием */}
+      <div className="mb-8 p-2 rounded-[1.5rem] bg-white/50 shadow-lg">
+        <div className="relative rounded-[1.2rem] overflow-hidden">
+          <div className="absolute top-20 right-0 w-64 h-64 bg-gradient-to-br from-blue-400/10 to-purple-400/10 rounded-full blur-3xl -z-10"></div>
+          <div className="absolute bottom-10 left-0 w-52 h-52 bg-gradient-to-br from-pink-400/10 to-purple-400/10 rounded-full blur-3xl -z-10"></div>
           <Image 
             src="/spiritual-woman.jpg" 
             alt="Духовное вдохновение" 
             width={1200} 
             height={800} 
-            className="w-full object-cover h-[450px]"
+            className="w-full h-[200px] md:h-[280px] object-cover"
             priority
           />
           
-          {/* Полупрозрачная полоска с названием */}
-          <div 
-            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 frosted-band inline-flex px-10 py-4 rounded-lg cursor-pointer"
-            onMouseEnter={() => setShowTooltip(true)}
-            onMouseLeave={() => setShowTooltip(false)}
-            onClick={startWaveAnimation}
-          >
-            <h2 className="text-3xl md:text-4xl font-bold text-white drop-shadow-md tracking-wider neon-text">
-              {"ВДОХНОВЕНИЕ".split('').map((letter, index) => {
-                // Определяем класс анимации в зависимости от индекса и состояния
-                let animationClass = '';
-                let animationStyle = {};
-                
-                if (isAnimating) {
-                  if (index < 4) {
-                    // Для букв "ВДОХ" - интенсивная пульсирующая анимация
-                    animationClass = 'animate-first';
-                  } else {
-                    // Для букв "НОВЕНИЕ" - затухающая пульсация с нарастающей задержкой
-                    animationClass = 'animate-wave';
-                    // Задержка: 6с для основной анимации + увеличивающийся интервал
-                    // Уменьшаем интенсивность (scale и duration) для каждой следующей буквы
-                    const delay = 6 + (index - 4) * 0.3;
-                    const intensity = Math.max(0.3, 1 - (index - 4) * 0.15); // Постепенно уменьшаем от 1 до 0.3
-                    
-                    animationStyle = {
-                      animationDelay: `${delay}s`,
-                      animationDuration: `${1.5 - (index - 4) * 0.1}s`, // Уменьшаем длительность от 1.5 до 1с
-                      transform: `scale(${intensity})` // Уменьшаем максимальный размер
-                    };
-                  }
-                }
-                
-                return (
-                  <span 
-                    key={index} 
-                    className={`letter-animation ${animationClass}`}
-                    style={animationStyle}
-                  >
-                    {letter}
-                  </span>
-                );
-              })}
-            </h2>
+          {/* Название с матовым стеклом */}
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <div 
+              className="frosted-band inline-flex px-8 md:px-12 py-4 md:py-5 rounded-2xl cursor-pointer relative"
+              onClick={() => setShowTooltip(!showTooltip)}
+            >
+              <h2 className="text-2xl md:text-5xl font-bold text-white drop-shadow-md tracking-wider neon-text whitespace-nowrap">
+                ВДОХНОВЕНИЕ
+              </h2>
             
-            {/* Иконка информации */}
-            <div className="absolute top-1 right-1">
-              <div className="w-4 h-4 text-white opacity-70 hover:opacity-100 transition-opacity">
-                <Info className="w-4 h-4" />
-              </div>
+              {/* Всплывающее окно при нажатии */}
+              {showTooltip && (
+                <div 
+                  className="info-tooltip"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowTooltip(false);
+                  }}
+                >
+                  <p>{messageText}</p>
+                </div>
+              )}
             </div>
           </div>
-          
-          {/* Всплывающее окно при наведении */}
-          {showTooltip && (
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 translate-y-16 p-4 info-tooltip max-w-md z-20">
-              <p className="text-slate-700 text-center font-medium">
-                Здесь вы найдете безусловную поддержку, понимание и инструменты для решения ваших ситуаций
-              </p>
-            </div>
-          )}
         </div>
       </div>
 
@@ -323,5 +289,6 @@ function BarChart(props: any) {
     </svg>
   )
 }
+
 
 

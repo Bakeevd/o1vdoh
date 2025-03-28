@@ -155,9 +155,72 @@
   }
   
   .info-tooltip {
-    @apply backdrop-blur-md bg-white/70 p-4 shadow-lg rounded-xl;
-    animation: fadeIn 0.3s ease-in-out;
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 1.25rem 1.25rem 1.25rem 0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    width: 320px;
+    max-width: 90vw;
+    padding: 1.25rem;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    animation: message-appear 0.3s ease-out;
+  }
+
+  .info-tooltip::before {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    clip-path: polygon(0 0, 0% 100%, 100% 0);
+  }
+
+  .info-tooltip p {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.6;
+    opacity: 0;
+    animation: text-appear 0.5s ease-out forwards;
+    animation-delay: 0.2s;
+  }
+
+  @keyframes message-appear {
+    from {
+      opacity: 0;
+      transform: translate(-50%, -45%);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  @keyframes text-appear {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .info-tooltip {
+      width: 280px;
+      padding: 1rem;
+    }
+    
+    .info-tooltip p {
+      font-size: 0.95rem;
+    }
   }
 }
 
@@ -269,6 +332,114 @@
   
   .tab-inactive {
     @apply text-gray-500 hover:text-gray-700;
+  }
+
+  .glass-badge {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-right: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 4px 0 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .rounded-frame {
+    border-radius: 24px;
+    padding: 2px;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .info-tooltip {
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 1.25rem 1.25rem 1.25rem 0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    width: 320px;
+    max-width: 90vw;
+    padding: 1.25rem;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    animation: message-appear 0.3s ease-out;
+  }
+
+  .info-tooltip::before {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    clip-path: polygon(0 0, 0% 100%, 100% 0);
+  }
+
+  .info-tooltip p {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.6;
+    opacity: 0;
+    animation: text-appear 0.5s ease-out forwards;
+    animation-delay: 0.2s;
+  }
+
+  @keyframes message-appear {
+    from {
+      opacity: 0;
+      transform: translate(-50%, -45%);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  @keyframes text-appear {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .info-tooltip {
+      width: 280px;
+      padding: 1rem;
+    }
+    
+    .info-tooltip p {
+      font-size: 0.95rem;
+    }
+  }
+
+  /* Анимация печатания текста */
+  @keyframes typing-cursor {
+    from, to { border-right-color: transparent }
+    50% { border-right-color: #1a1a1a }
+  }
+
+  .typing-text {
+    display: inline;
+    color: #1a1a1a;
+    border-right: 2px solid #1a1a1a;
+    animation: typing-cursor 0.8s step-end infinite;
+  }
+
+  .typing-text span {
+    opacity: 0;
+    position: relative;
+    display: inline;
+  }
+
+  .typing-text span.visible {
+    opacity: 1;
+    transition: opacity 0.1s ease;
   }
 }
 
@@ -413,5 +584,119 @@
   100% {
     transform: scale(1);
   }
+}
+
+/* Адаптивные стили для изображения и текста */
+@media (max-width: 768px) {
+  .frosted-band {
+    width: 90%;
+    max-width: 320px;
+  }
+  
+  .info-tooltip {
+    width: 280px;
+    padding: 1rem;
+  }
+  
+  .info-tooltip p {
+    font-size: 0.95rem;
+  }
+}
+
+/* Анимации для текста */
+@keyframes first-wave {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+  }
+  50% {
+    transform: translateY(-10px) scale(1.1);
+    text-shadow: 0 0 20px rgba(255, 255, 255, 1),
+                 0 0 30px rgba(255, 255, 255, 0.8),
+                 0 0 40px rgba(255, 255, 255, 0.6);
+  }
+}
+
+@keyframes wave-animation {
+  0%, 100% {
+    transform: translateY(0);
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.6);
+  }
+  50% {
+    transform: translateY(-5px);
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.8),
+                 0 0 25px rgba(255, 255, 255, 0.6);
+  }
+}
+
+.animate-first {
+  animation: first-wave 2s ease-in-out;
+}
+
+.animate-wave {
+  animation: wave-animation 1.5s ease-in-out;
+}
+
+.letter-animation {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+/* Стили для рамки */
+.rounded-frame {
+  position: relative;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+              0 2px 4px -1px rgba(0, 0, 0, 0.06),
+              0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.rounded-frame::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right bottom, 
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.05));
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Стили для матового стекла */
+.frosted-band {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* Анимация печатания текста */
+@keyframes typing {
+  from { 
+    width: 0;
+    border-right: 2px solid #1a1a1a;
+  }
+  to { 
+    width: 100%;
+    border-right: 2px solid transparent;
+  }
+}
+
+@keyframes blink {
+  from, to { border-color: transparent }
+  50% { border-color: #1a1a1a }
+}
+
+.typing-text {
+  display: inline-block;
+  white-space: pre-wrap;
+  overflow: hidden;
+  width: 0;
+  animation: 
+    typing 3s steps(50, end) forwards,
+    blink 1s step-end infinite;
+  border-right: 2px solid;
+  color: #1a1a1a;
 }
 
