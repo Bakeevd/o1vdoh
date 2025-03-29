@@ -3,6 +3,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter"
 import CredentialsProvider from "next-auth/providers/credentials"
 import { PrismaClient } from "@prisma/client"
 import bcrypt from "bcryptjs"
+import { NextResponse } from "next/server"
 
 const prisma = new PrismaClient()
 
@@ -65,4 +66,10 @@ export const authOptions: NextAuthOptions = {
   }
 }
 
-export { authOptions as GET, authOptions as POST } 
+export async function GET(request: Request) {
+  return NextResponse.json({ message: "Auth API is temporarily unavailable" }, { status: 503 })
+}
+
+export async function POST(request: Request) {
+  return NextResponse.json({ message: "Auth API is temporarily unavailable" }, { status: 503 })
+} 

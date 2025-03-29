@@ -1,41 +1,33 @@
-              <p className="text-slate-600 dark:text-slate-400">+7 (999) 123-45-67</p>
-            </div>
-            
-            <div>
-              <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">Комментарий к записи (не обязательно)</p>
-              <textarea
-                className="w-full p-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-slate-700 dark:text-slate-300"
-                placeholder="Ваш комментарий..."
-                rows={3}
-              ></textarea>
-            </div>
-          </div>
-          
-          <div className="glass-card p-4 mb-6">
-            <h3 className="text-lg font-medium text-slate-700 dark:text-slate-300 mb-4">Итого</h3>
-            
-            <div className="flex justify-between items-center text-slate-700 dark:text-slate-300 mb-2">
-              <span>Стоимость услуги</span>
-              <span className="font-medium">{service.price}</span>
-            </div>
-            
-            <div className="border-t border-gray-200 dark:border-gray-700 my-3"></div>
-            
-            <div className="flex justify-between items-center text-slate-700 dark:text-slate-300 font-medium">
-              <span>Итого к оплате</span>
-              <span className="text-lg">{service.price}</span>
-            </div>
-          </div>
-          
-          <Button 
-            className="w-full gradient-button font-medium py-5" 
-            radius="xl"
-            onClick={handleContinue}
-          >
-            Подтвердить запись
-          </Button>
-        </>
-      )}
+"use client"
+
+import Link from "next/link"
+import { ArrowLeft } from "lucide-react"
+import { useParams } from "next/navigation"
+
+export default function BookingPage() {
+  const params = useParams();
+  const serviceId = params?.serviceId;
+  
+  return (
+    <div className="p-4 pt-6 max-w-4xl mx-auto">
+      <div className="mb-6">
+        <Link href="/services">
+          <button className="flex items-center text-slate-500 hover:text-slate-700">
+            <ArrowLeft className="h-5 w-5 mr-2" />
+            <span>Назад к услугам</span>
+          </button>
+        </Link>
+      </div>
+      
+      <h1 className="text-2xl font-bold text-slate-700 dark:text-slate-300 mb-2">Запись на сеанс #{serviceId}</h1>
+      <p>Форма записи в разработке...</p>
+      
+      <div className="mt-6 p-4 border rounded-lg">
+        <h2 className="text-lg font-semibold mb-3">Контактная информация</h2>
+        <div className="mb-3">
+          <p className="text-slate-600 dark:text-slate-400">+7 (999) 123-45-67</p>
+        </div>
+      </div>
     </div>
   )
 } 
