@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { ArrowRight, Calendar, Sparkles, Star, Clock, Users, User, Copy, ChevronRight, Wallet, Share2, Gift, Info, Sun, Moon } from "lucide-react"
+import { ArrowRight, Calendar, Sparkles, Star, Clock, Users, User, Copy, ChevronRight, Wallet, Share2, Gift, Info, Sun, Moon, ArrowLeft } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useState, useEffect } from "react"
 import { LogoBadge } from "@/components/logo-badge"
@@ -10,6 +10,7 @@ import { ServiceCard } from "@/components/service-card"
 import { EventCard } from "@/components/event-card"
 import { BottomSheet } from "@/components/bottom-sheet"
 import { SwipeCarousel } from "@/components/swipe-carousel"
+import { useParams } from "next/navigation"
 
 // Определяем типы данных
 interface Service {
@@ -143,6 +144,9 @@ export default function Home() {
     setActiveService(service);
     setShowBottomSheet(true);
   };
+
+  const params = useParams();
+  const serviceId = params?.serviceId;
 
   return (
     <div className={isDarkMode ? 'dark' : ''}>
@@ -395,6 +399,18 @@ export default function Home() {
             </div>
           </BottomSheet>
         )}
+
+        <div className="mb-6">
+          <Link href="/services">
+            <Button variant="ghost" className="p-0 hover:bg-transparent">
+              <ArrowLeft className="h-5 w-5 mr-2 text-slate-500" />
+              <span className="text-slate-500">Назад к услугам</span>
+            </Button>
+          </Link>
+        </div>
+        
+        <h1 className="text-2xl font-bold text-slate-700 dark:text-slate-300 mb-2">Запись на сеанс #{serviceId}</h1>
+        <p>Форма записи в разработке...</p>
       </div>
     </div>
   )
