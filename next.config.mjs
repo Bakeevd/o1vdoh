@@ -1,5 +1,6 @@
 import { fileURLToPath } from 'url'
 import { dirname, join } from 'path'
+import withCssPlugin from './with-css-plugin.mjs'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -27,11 +28,13 @@ const nextConfig = {
     parallelServerBuildTraces: true,
     parallelServerCompiles: true,
   },
-  webpack: (config) => {
+  webpack: (config, { isServer, dev }) => {
+    // Добавляем alias
     config.resolve.alias = {
       ...config.resolve.alias,
       '@': join(__dirname),
     };
+    
     return config;
   }
 }
@@ -58,4 +61,5 @@ function mergeConfig(nextConfig, userConfig) {
   }
 }
 
-export default nextConfig
+// Оборачиваем конфигурацию Next.js с помощью нашего плагина CSS
+export default withCssPlugin(nextConfig);
