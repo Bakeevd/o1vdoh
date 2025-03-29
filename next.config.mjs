@@ -36,6 +36,21 @@ const nextConfig = {
     };
     
     return config;
+  },
+  output: "export",
+  trailingSlash: true,
+  skipTrailingSlashRedirect: true,
+  distDir: "out",
+  // Исключаем страницу с ошибкой из сборки
+  exportPathMap: async function() {
+    return {
+      '/': { page: '/' },
+      '/services': { page: '/services' },
+      '/specialists': { page: '/specialists' },
+      '/about': { page: '/about' },
+      '/contact': { page: '/contact' }
+      // Исключили /admin
+    }
   }
 }
 

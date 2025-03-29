@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { LayoutDashboard, Users } from "lucide-react"
+import { LayoutDashboard, Users, SearchIcon } from "lucide-react"
 
 export default function AdminPage() {
   const isAdmin = true;
@@ -50,22 +50,13 @@ export default function AdminPage() {
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
           <h1 className="text-2xl font-bold text-slate-700 dark:text-slate-300 mb-4 sm:mb-0">Панель управления</h1>
           
-          <div className="flex gap-3">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-4 w-4" />
-              <Input 
-                type="text"
-                placeholder="Поиск..." 
-                className="pl-9 w-52"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
-            
-            <Button className="gradient-button">
-              <PlusCircle className="h-4 w-4 mr-2" />
-              Добавить
-            </Button>
+          <div className="relative w-full sm:w-auto">
+            <input 
+              type="text"
+              placeholder="Поиск..."
+              className="pl-10 pr-4 py-2 border rounded-lg w-full sm:w-64"
+            />
+            <SearchIcon className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
           </div>
         </div>
         
