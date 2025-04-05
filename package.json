@@ -1,0 +1,30 @@
+{
+  "name": "vdohnovenie-express",
+  "version": "1.0.0",
+  "description": "Vdohnovenie - платформа психологического центра",
+  "main": "index.js",
+  "scripts": {
+    "install:all": "npm run install:backend && npm run install:frontend",
+    "install:backend": "cd backend && npm install",
+    "install:frontend": "cd frontend && npm install",
+    "start": "NODE_ENV=production node backend/server.js",
+    "server": "cd backend && npm run dev",
+    "client": "cd frontend && npm start",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "build": "cd frontend && npm run build",
+    "setup": "npm run install:all && npm run build",
+    "setup:prod": "npm run install:all && NODE_ENV=production npm run build"
+  },
+  "keywords": [
+    "vdohnovenie",
+    "psychology",
+    "react",
+    "express",
+    "mysql"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
